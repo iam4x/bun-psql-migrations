@@ -1,21 +1,34 @@
 {
   "name": "bun-psql-migrations",
   "version": "1.0.0",
-  "description": "Zero-dependency PostgreSQL migrator for Bun",
+  "description": "Lightweight PostgreSQL migration tool for Bun - Simple CLI and programmatic API for database schema migrations",
   "author": "iam4x",
   "license": "MIT",
   "repository": {
     "type": "git",
     "url": "https://github.com/iam4x/bun-psql-migrations"
   },
+  "homepage": "https://github.com/iam4x/bun-psql-migrations#readme",
+  "bugs": {
+    "url": "https://github.com/iam4x/bun-psql-migrations/issues"
+  },
   "keywords": [
     "bun",
     "postgresql",
     "postgres",
+    "psql",
+    "pg",
     "migrations",
+    "migrate",
+    "migrator",
     "database",
+    "schema",
     "sql",
-    "cli"
+    "cli",
+    "db",
+    "rollback",
+    "up",
+    "down"
   ],
   "module": "dist/index.js",
   "main": "dist/index.js",

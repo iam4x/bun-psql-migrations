@@ -1,6 +1,24 @@
 # bun-psql-migrations
 
+[![npm version](https://img.shields.io/npm/v/bun-psql-migrations.svg)](https://www.npmjs.com/package/bun-psql-migrations)
+[![npm downloads](https://img.shields.io/npm/dm/bun-psql-migrations.svg)](https://www.npmjs.com/package/bun-psql-migrations)
+[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT)
+
 Lightweight PostgreSQL migrator for [Bun](https://bun.sh). Uses Bun's built-in SQL client.
+
+A simple, fast, and reliable database migration tool designed specifically for Bun projects. Manage your PostgreSQL schema changes with timestamp-based migrations, transaction-safe execution, and both CLI and programmatic APIs.
+
+## Table of Contents
+
+- [Features](#features)
+- [Why bun-psql-migrations?](#why-bun-psql-migrations)
+- [Installation](#installation)
+- [CLI Usage](#cli-usage)
+- [Environment Variables](#environment-variables)
+- [Migration Files](#migration-files)
+- [Programmatic API](#programmatic-api)
+- [How It Works](#how-it-works)
+- [License](#license)
 
 ## Features
 
@@ -10,6 +28,13 @@ Lightweight PostgreSQL migrator for [Bun](https://bun.sh). Uses Bun's built-in S
 - Timestamp-based migration naming (no conflicts in teams)
 - Transaction-safe migrations
 - Programmatic API for custom scripts
+
+## Why bun-psql-migrations?
+
+- **Built for Bun**: Uses Bun's native PostgreSQL client, no external drivers needed
+- **Zero config**: Works out of the box with just `DATABASE_URL`
+- **Team-friendly**: Timestamp-based naming prevents merge conflicts
+- **Lightweight**: Only ~50KB with minimal dependencies
 
 ## Installation
 
