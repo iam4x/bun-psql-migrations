@@ -1,16 +1,24 @@
 {
   "name": "bun-sql-migrations",
+  "version": "1.0.0",
+  "description": "Zero-dependency PostgreSQL migrator for Bun",
   "module": "index.ts",
   "type": "module",
-  "private": true,
   "exports": {
     ".": "./dist/index.js"
   },
+  "bin": {
+    "bun-sql-migrations": "./dist/cli.js"
+  },
+  "files": [
+    "dist"
+  ],
   "scripts": {
-    "start": "bun run dist/index.js",
-    "build": "bun build src/index.ts --outdir dist --target bun --env disable",
-    "test": "bun test",
-    "dev": "bun run --watch src/index.ts",
+    "build": "bun build src/index.ts src/cli.ts --outdir dist --target bun",
+    "test": "bun test src/index.test.ts",
+    "test:integration": "bun test src/index.integration.test.ts --timeout 60000",
+    "test:all": "bun test --timeout 60000",
+    "dev": "bun run --watch src/cli.ts",
     "lint": "bun run lint:eslint && bun run lint:tsc",
     "lint:eslint": "eslint src",
     "lint:tsc": "tsc --noEmit",
@@ -32,5 +40,9 @@
   },
   "peerDependencies": {
     "typescript": "^5.8.3"
+  },
+  "dependencies": {
+    "pino": "^10.3.0",
+    "pino-pretty": "^13.1.3"
   }
 }
