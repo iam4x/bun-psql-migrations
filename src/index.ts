@@ -4,6 +4,21 @@ import { logger } from "./logger";
 
 const DEFAULT_MIGRATIONS_DIR = "./migrations";
 
+// Advisory lock ID for migrations (hash of "bun-sql-migrations")
+// Using a fixed number to ensure consistency across processes
+const MIGRATION_LOCK_ID = 5432_1234;
+
+/**
+ * Acquire a transaction-level advisory lock for migrations
+ * This lock is automatically released when the transaction ends
+ * Returns true if lock was acquired, false if already held by another process
+ */
+async function tryAcquireTransactionLock(tx: typeof sql): Promise<boolean> {
+  const result =
+    await tx`SELECT pg_try_advisory_xact_lock(${MIGRATION_LOCK_ID})`;
+  return result[0].pg_try_advisory_xact_lock === true;
+}
+
 /**
  * Get the migrations directory from environment or use default
  */
@@ -92,11 +107,26 @@ export async function migrate(dir?: string): Promise<void> {
 
   for (const migrationName of pending) {
     const upFile = `${migrationsDir}/${migrationName}.up.sql`;
+
+    // Check if up file exists
+    const upFileExists = await Bun.file(upFile).exists();
+    if (!upFileExists) {
+      throw new Error(`Up migration file not found: ${upFile}`);
+    }
+
     const sqlText = await Bun.file(upFile).text();
 
     logger.info(`▶ applying ${migrationName}`);
 
     await sql.begin(async (tx) => {
+      // Acquire transaction-level lock (automatically released when tx ends)
+      const lockAcquired = await tryAcquireTransactionLock(tx);
+      if (!lockAcquired) {
+        throw new Error(
+          "Could not acquire migration lock. Another migration process may be running.",
+        );
+      }
+
       await tx.unsafe(sqlText);
       await tx`INSERT INTO _migrations (id) VALUES (${migrationName})`;
     });
@@ -135,6 +165,14 @@ export async function rollback(dir?: string): Promise<void> {
   logger.info(`◀ rolling back ${migrationName}`);
 
   await sql.begin(async (tx) => {
+    // Acquire transaction-level lock (automatically released when tx ends)
+    const lockAcquired = await tryAcquireTransactionLock(tx);
+    if (!lockAcquired) {
+      throw new Error(
+        "Could not acquire migration lock. Another migration process may be running.",
+      );
+    }
+
     await tx.unsafe(sqlText);
     await tx`DELETE FROM _migrations WHERE id = ${migrationName}`;
   });
@@ -174,6 +212,14 @@ export async function reset(dir?: string): Promise<void> {
     logger.info(`◀ rolling back ${migrationName}`);
 
     await sql.begin(async (tx) => {
+      // Acquire transaction-level lock (automatically released when tx ends)
+      const lockAcquired = await tryAcquireTransactionLock(tx);
+      if (!lockAcquired) {
+        throw new Error(
+          "Could not acquire migration lock. Another migration process may be running.",
+        );
+      }
+
       await tx.unsafe(sqlText);
       await tx`DELETE FROM _migrations WHERE id = ${migrationName}`;
     });

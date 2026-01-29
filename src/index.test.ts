@@ -1,5 +1,6 @@
 import { mkdir, rm } from "node:fs/promises";
 
+import { $ } from "bun";
 import { test, expect, describe, beforeAll, afterAll } from "bun:test";
 
 import {
@@ -104,5 +105,42 @@ describe("CLI create command", () => {
     for (const name of invalidNames) {
       expect(/^[a-zA-Z0-9_-]+$/.test(name)).toBe(false);
     }
+  });
+});
+
+describe("CLI init command", () => {
+  const testDir = "./test-init-migrations";
+
+  afterAll(async () => {
+    await rm(testDir, { recursive: true, force: true });
+  });
+
+  test("warns when migrations directory already exists", async () => {
+    // First, create the directory
+    await mkdir(testDir, { recursive: true });
+
+    // Run init command with the directory already existing
+    const result =
+      await $`MIGRATIONS_DIR=${testDir} bun run src/cli.ts init`.nothrow();
+
+    const output = result.text();
+
+    // Should warn that directory already exists, not say "Created"
+    expect(output).toContain("already exists");
+    expect(output).not.toContain("Created migrations directory");
+  });
+
+  test("creates directory successfully when it does not exist", async () => {
+    // Clean up first to ensure directory doesn't exist
+    await rm(testDir, { recursive: true, force: true });
+
+    // Run init command
+    const result =
+      await $`MIGRATIONS_DIR=${testDir} bun run src/cli.ts init`.nothrow();
+
+    const output = result.text();
+
+    // Should confirm creation
+    expect(output).toContain("Created migrations directory");
   });
 });
