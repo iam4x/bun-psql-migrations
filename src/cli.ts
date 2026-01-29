@@ -10,7 +10,7 @@ import {
 } from "./index";
 
 const HELP_TEXT = `
-bun-sql-migrations - Zero-dependency PostgreSQL migrator for Bun
+bun-sql-migrations - Lightweight PostgreSQL migrator for Bun
 
 Usage:
   bun-sql-migrations <command> [options]
@@ -68,18 +68,20 @@ async function main(): Promise<void> {
 async function cmdInit(): Promise<void> {
   const migrationsDir = getMigrationsDir();
 
-  const { mkdir } = await import("node:fs/promises");
+  const { mkdir, access } = await import("node:fs/promises");
 
+  // Check if directory already exists
   try {
-    await mkdir(migrationsDir, { recursive: true });
-    logger.info(`✅ Created migrations directory: ${migrationsDir}`);
-  } catch (error) {
-    if ((error as NodeJS.ErrnoException).code === "EEXIST") {
-      logger.error(`Migrations directory already exists: ${migrationsDir}`);
-    } else {
-      throw error;
-    }
+    await access(migrationsDir);
+    // If access succeeds, directory exists
+    logger.warn(`Migrations directory already exists: ${migrationsDir}`);
+    return;
+  } catch {
+    // Directory doesn't exist, proceed to create it
   }
+
+  await mkdir(migrationsDir, { recursive: true });
+  logger.info(`✅ Created migrations directory: ${migrationsDir}`);
 }
 
 async function cmdCreate(args: string[]): Promise<void> {
