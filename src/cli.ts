@@ -10,10 +10,10 @@ import {
 } from "./index";
 
 const HELP_TEXT = `
-bun-sql-migrations - Lightweight PostgreSQL migrator for Bun
+bun-psql-migrations - Lightweight PostgreSQL migrator for Bun
 
 Usage:
-  bun-sql-migrations <command> [options]
+  bun-psql-migrations <command> [options]
 
 Commands:
   init              Create migrations directory
@@ -27,9 +27,9 @@ Environment Variables:
   MIGRATIONS_DIR    Migrations directory (default: ./migrations)
 
 Examples:
-  bunx bun-sql-migrations init
-  bunx bun-sql-migrations create add_users
-  DATABASE_URL=postgres://localhost/mydb bunx bun-sql-migrations migrate
+  bunx bun-psql-migrations init
+  bunx bun-psql-migrations create add_users
+  DATABASE_URL=postgres://localhost/mydb bunx bun-psql-migrations migrate
 `.trim();
 
 async function main(): Promise<void> {
@@ -89,7 +89,7 @@ async function cmdCreate(args: string[]): Promise<void> {
 
   if (!name) {
     logger.error("Error: Migration name is required");
-    logger.error("Usage: bun-sql-migrations create <name>");
+    logger.error("Usage: bun-psql-migrations create <name>");
     process.exit(1);
   }
 
@@ -116,7 +116,7 @@ async function cmdCreate(args: string[]): Promise<void> {
     logger.error(
       `Error: Migrations directory does not exist: ${migrationsDir}`,
     );
-    logger.error('Run "bun-sql-migrations init" first');
+    logger.error('Run "bun-psql-migrations init" first');
     process.exit(1);
   }
 
@@ -158,7 +158,7 @@ function checkDatabaseUrl(): void {
   if (!process.env.DATABASE_URL) {
     logger.error("Error: DATABASE_URL environment variable is required");
     logger.error(
-      "Example: DATABASE_URL=postgres://user:pass@localhost/db bunx bun-sql-migrations migrate",
+      "Example: DATABASE_URL=postgres://user:pass@localhost/db bunx bun-psql-migrations migrate",
     );
     process.exit(1);
   }

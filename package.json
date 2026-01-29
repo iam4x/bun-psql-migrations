@@ -1,5 +1,5 @@
 {
-  "name": "bun-sql-migrations",
+  "name": "bun-psql-migrations",
   "version": "1.0.0",
   "description": "Zero-dependency PostgreSQL migrator for Bun",
   "module": "index.ts",
@@ -8,7 +8,7 @@
     ".": "./dist/index.js"
   },
   "bin": {
-    "bun-sql-migrations": "./dist/cli.js"
+    "bun-psql-migrations": "./dist/cli.js"
   },
   "files": [
     "dist"

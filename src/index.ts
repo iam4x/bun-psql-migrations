@@ -4,7 +4,7 @@ import { logger } from "./logger";
 
 const DEFAULT_MIGRATIONS_DIR = "./migrations";
 
-// Advisory lock ID for migrations (hash of "bun-sql-migrations")
+// Advisory lock ID for migrations (hash of "bun-psql-migrations")
 // Using a fixed number to ensure consistency across processes
 const MIGRATION_LOCK_ID = 5432_1234;
 

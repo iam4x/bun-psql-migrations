@@ -1,5 +1,5 @@
 /**
- * Integration tests for bun-sql-migrations
+ * Integration tests for bun-psql-migrations
  *
  * Run tests:
  *   bun test src/index.integration.test.ts

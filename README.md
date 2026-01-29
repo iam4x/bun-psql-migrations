@@ -1,4 +1,4 @@
-# bun-sql-migrations
+# bun-psql-migrations
 
 Lightweight PostgreSQL migrator for [Bun](https://bun.sh). Uses Bun's built-in SQL client.
 
@@ -14,7 +14,7 @@ Lightweight PostgreSQL migrator for [Bun](https://bun.sh). Uses Bun's built-in S
 ## Installation
 
 ```bash
-bun add -d bun-sql-migrations
+bun add -d bun-psql-migrations
 ```
 
 ## CLI Usage
@@ -22,7 +22,7 @@ bun add -d bun-sql-migrations
 ### Initialize migrations directory
 
 ```bash
-bunx bun-sql-migrations init
+bunx bun-psql-migrations init
 ```
 
 Creates a `./migrations` directory in your project.
@@ -30,7 +30,7 @@ Creates a `./migrations` directory in your project.
 ### Create a new migration
 
 ```bash
-bunx bun-sql-migrations create add_users
+bunx bun-psql-migrations create add_users
 ```
 
 Creates two files:
@@ -40,19 +40,19 @@ Creates two files:
 ### Apply pending migrations
 
 ```bash
-DATABASE_URL=postgres://user:pass@localhost/db bunx bun-sql-migrations migrate
+DATABASE_URL=postgres://user:pass@localhost/db bunx bun-psql-migrations migrate
 ```
 
 ### Rollback last migration
 
 ```bash
-DATABASE_URL=postgres://user:pass@localhost/db bunx bun-sql-migrations rollback
+DATABASE_URL=postgres://user:pass@localhost/db bunx bun-psql-migrations rollback
 ```
 
 ### Reset all migrations
 
 ```bash
-DATABASE_URL=postgres://user:pass@localhost/db bunx bun-sql-migrations reset
+DATABASE_URL=postgres://user:pass@localhost/db bunx bun-psql-migrations reset
 ```
 
 ## Environment Variables
@@ -85,7 +85,7 @@ DROP TABLE users;
 You can also use the library programmatically:
 
 ```typescript
-import { migrate, rollback, reset, getPendingMigrations } from "bun-sql-migrations";
+import { migrate, rollback, reset, getPendingMigrations } from "bun-psql-migrations";
 
 // Apply all pending migrations
 await migrate();
