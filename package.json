@@ -2,10 +2,30 @@
   "name": "bun-psql-migrations",
   "version": "1.0.0",
   "description": "Zero-dependency PostgreSQL migrator for Bun",
-  "module": "index.ts",
+  "author": "iam4x",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/iam4x/bun-psql-migrations"
+  },
+  "keywords": [
+    "bun",
+    "postgresql",
+    "postgres",
+    "migrations",
+    "database",
+    "sql",
+    "cli"
+  ],
+  "module": "dist/index.js",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
   "type": "module",
   "exports": {
-    ".": "./dist/index.js"
+    ".": {
+      "import": "./dist/index.js",
+      "types": "./dist/index.d.ts"
+    }
   },
   "bin": {
     "bun-psql-migrations": "./dist/cli.js"
@@ -14,7 +34,8 @@
     "dist"
   ],
   "scripts": {
-    "build": "bun build src/index.ts src/cli.ts --outdir dist --target bun",
+    "build": "bun build src/index.ts src/cli.ts --outdir dist --target bun && chmod +x dist/cli.js && bun run build:types",
+    "build:types": "tsc --declaration --emitDeclarationOnly --outDir dist",
     "test": "bun test src/index.test.ts",
     "test:integration": "bun test src/index.integration.test.ts --timeout 60000",
     "test:all": "bun test --timeout 60000",
