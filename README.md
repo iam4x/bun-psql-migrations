@@ -1,10 +1,10 @@
 # bun-sql-migrations
 
-Zero-dependency PostgreSQL migrator for [Bun](https://bun.sh). Uses Bun's built-in SQL client.
+Lightweight PostgreSQL migrator for [Bun](https://bun.sh). Uses Bun's built-in SQL client.
 
 ## Features
 
-- Zero dependencies - uses only Bun built-ins
+- Minimal dependencies (only `pino` for logging)
 - Simple CLI for managing migrations
 - Separate up/down migration files
 - Timestamp-based migration naming (no conflicts in teams)
