@@ -1,6 +1,6 @@
 {
   "name": "bun-psql-migrations",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Lightweight PostgreSQL migration tool for Bun - Simple CLI and programmatic API for database schema migrations",
   "author": "iam4x",
   "license": "MIT",
