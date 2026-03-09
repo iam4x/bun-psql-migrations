@@ -82,7 +82,9 @@ export async function getPendingMigrations(dir?: string): Promise<string[]> {
       await Array.fromAsync(new Bun.Glob("*.up.sql").scan(migrationsDir))
     ).sort();
   } catch {
-    // Directory doesn't exist - no migrations to apply
+    logger.warn(
+      `Migrations directory not found or unreadable: ${migrationsDir}`,
+    );
     return [];
   }
 
@@ -96,6 +98,7 @@ export async function getPendingMigrations(dir?: string): Promise<string[]> {
  */
 export async function migrate(dir?: string): Promise<void> {
   const migrationsDir = dir || getMigrationsDir();
+  logger.info(`Using migrations directory: ${migrationsDir}`);
   await ensureMigrationsTable();
 
   const pending = await getPendingMigrations(migrationsDir);
