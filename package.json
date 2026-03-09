@@ -47,7 +47,7 @@
     "dist"
   ],
   "scripts": {
-    "build": "bun build src/index.ts src/cli.ts --outdir dist --target bun && chmod +x dist/cli.js && bun run build:types",
+    "build": "bun build src/index.ts src/cli.ts --outdir dist --target bun --external pino --external pino-pretty && chmod +x dist/cli.js && bun run build:types",
     "build:types": "tsc --declaration --emitDeclarationOnly --outDir dist",
     "test": "bun test src/index.test.ts",
     "test:integration": "bun test src/index.integration.test.ts --timeout 60000",
